@@ -146,6 +146,40 @@ public class QueueExample {
 }
 ```
 
+### 4.1 PriorityQueue (우선순위 큐)
+
+#### 개념
+일반적인 큐(Queue)와 달리, 데이터가 들어온 순서가 아닌 우선순위에 따라 나가는 자료구조  
+
+#### 특징
+- 내부적으로 힙(Heap) 자료구조를 사용하여 구현됨  
+- 가장 우선순위가 높은(최대 힙의 경우 최댓값, 최소 힙의 경우 최솟값) 요소가 항상 가장 먼저 추출됨  
+- 요소 삽입 및 삭제 시간 복잡도: $\text{O}(\log n)$  
+
+#### 실생활 예시
+응급실 환자 처리 (위급도에 따라 우선순위 결정), 운영체제의 작업 스케줄링  
+
+#### 자바 예시 코드
+우선순위 큐 사용 (Java PriorityQueue 클래스 이용)  
+
+```java
+import java.util.PriorityQueue;
+
+public class PriorityQueueExample {
+	public static void main(String[] args) {
+		// 기본적으로 낮은 숫자가 높은 우선순위를 갖는 최소 힙으로 동작
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+		pq.add(30);
+		pq.add(10); // 가장 낮은 숫자이므로 우선순위가 가장 높음
+		pq.add(20);
+
+		System.out.println(pq.poll()); // Dequeue: 10 출력 (최소값 먼저)
+		System.out.println(pq.poll()); // Dequeue: 20 출력
+	}
+}
+```
+
 ### 5. Heap (힙)
 
 #### 개념
@@ -205,6 +239,95 @@ public class HeapExample {
 - 소셜 네트워크, 지도 경로 탐색, 회로 분석 등에 활용됨
 - DFS, BFS 등의 알고리즘을 사용해 탐색
 
+### 8. Hash Table (해시 테이블/맵)
+
+#### 개념
+키(Key)와 값(Value)을 연결하여 저장하며,   
+키를 해시 함수(Hash Function)를 통해 특정 배열 인덱스로 변환하여   
+데이터를 저장하고 즉시 접근할 수 있게 하는 구조  
+
+#### 특징
+- 데이터 삽입, 삭제, 검색이 평균 $\text{O}(1)$ 시간 복잡도로 매우 빠름  
+- 키-값 쌍을 저장하는 연관 배열(Associative Array)을 구현하는 데 사용됨  
+- 해시 충돌(Collision) 문제가 발생할 수 있으며, 이를 해결하기 위해 체이닝(Chaining)이나 개방 주소법(Open Addressing) 등의 기법이 사용됨  
+
+#### 실생활 예시
+전화번호부 (이름(키)으로 전화번호(값)를 찾음), 데이터베이스 인덱싱  
+
+#### 자바 예시 코드
+해시 맵 사용 (Java HashMap 클래스 이용)  
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class HashTableExample {
+	public static void main(String[] args) {
+		// 키(String)와 값(Integer)을 저장하는 해시 맵 생성
+		Map<String, Integer> map = new HashMap<>();
+
+		// 데이터 삽입
+		map.put("Apple", 1000);
+		map.put("Banana", 2000);
+
+		// 키를 이용한 빠른 검색
+		int price = map.get("Apple");
+		System.out.println("Apple 가격: " + price); // 1000 출력
+
+		// 키 존재 여부 확인
+		if (map.containsKey("Banana")) {
+			System.out.println("Banana는 맵에 존재합니다.");
+		}
+	}
+}
+```
+
+### 9. Trie (트라이/접두사 트리)
+
+#### 개념
+문자열을 저장하고 검색하는 데 사용되는 트리 형태의 자료구조  
+노드가 문자를 나타내며, 루트부터 특정 노드까지의 경로가 하나의 단어(접두사)를 나타냄  
+
+#### 특징
+- 주로 자동 완성(Autocomplete), 맞춤법 검사, 사전 등의 기능 구현에 사용됨  
+- 문자열 탐색 시간이 문자열의 길이($L$)에 비례하여 **$\text{O}(L)$**로 빠름 (일반적으로 해시 테이블보다 빠름)  
+- 메모리 사용량이 많을 수 있음  
+
+#### 실생활 예시
+구글 검색창의 검색어 자동 완성 기능, 휴대폰 키패드 입력 예측  
+
+#### 자바 예시 코드
+트라이 노드 구조의 단순화된 예시  
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+// 트라이의 각 노드를 나타내는 클래스
+class TrieNode {
+	// 다음 문자를 저장하는 맵 (자식 노드)
+	Map<Character, TrieNode> children = new HashMap<>();
+	// 이 노드에서 단어가 끝나는지 표시
+	boolean isEndOfWord = false;
+}
+
+public class TrieExample {
+	// 트라이의 시작점(루트 노드)
+	private TrieNode root = new TrieNode();
+
+	// 단어를 트라이에 삽입하는 메서드
+	public void insert(String word) {
+		TrieNode current = root;
+		for (char ch : word.toCharArray()) {
+			// 현재 문자에 해당하는 자식 노드가 없으면 새로 생성
+			current = current.children.computeIfAbsent(ch, c -> new TrieNode());
+		}
+		// 마지막 노드에 단어 끝 표시
+		current.isEndOfWord = true;
+	}
+}
+```
+
 ---  
 
 ## Why Study Data Structures?
@@ -220,6 +343,9 @@ public class HeapExample {
 | 연결 리스트 (Linked List) | 동적 크기, 느린 인덱스 접근, 빠른 삽입/삭제 | 음악 재생 목록, 웹 브라우저 방문 기록 |
 | 스택 (Stack) | LIFO (Last In First Out) 구조 | 함수 호출, 실행 취소 (Undo) |
 | 큐 (Queue) | FIFO (First In First Out) 구조 | 프린터 작업 대기열, 은행 번호표 |
+| 우선순위 큐 (Priority Queue) | 힙 기반, 데이터가 우선순위에 따라 추출 | 응급실 환자 처리, 작업 스케줄링 |
 | 힙 (Heap) | 완전 이진 트리, 우선순위 큐 구현 | 작업 스케줄링, 다익스트라 최단 경로 |
 | 트리 (Tree) | 계층적 구조, 노드 간 부모-자식 관계 | 파일 시스템, 데이터베이스 인덱스 |
+| 해시 테이블 (Hash Table) | 키-값 저장, 평균 $\text{O}(1)$ 탐색 | 전화번호부, 데이터베이스 인덱싱 |
+| 트라이 (Trie) | 문자열 기반의 트리 구조, 노드가 문자를 나타냄 | 검색어 자동 완성, 맞춤법 검사 |
 | 그래프 (Graph) | 복잡한 연결 관계, 노드와 간선으로 구성 | 소셜 네트워크, 지도 경로 탐색 |
