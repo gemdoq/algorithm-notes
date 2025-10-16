@@ -35,6 +35,16 @@ git rm --cached misc.xml modules.xml vcs.xml
 git add .
 ```
 
+### 3. github에 repository 공유
+이제 git stage에 추적되고 있는 변경사항들을 로컬리포지토리에 커밋하고,  
+해당 내용을 github의 원격리포지토리를 생성하고 공유  
+(IntelliJ에 github가 로그인되어 있다는 가정)
+1. IntelliJ 상단 메뉴에서 VCS 클릭
+2. 메뉴 중에서 Share Project on GitHub 선택
+3. Repository name 및 Description 입력(예: 🚀 자바로 푸는 알고리즘 문제 풀이 & 학습 기록 저장소 📚)  
+4. Visibility(공개 여부) 설정 (Public 또는 Private) 선택
+5. Share 버튼 클릭(github에 repository가 생성되고 현재 코드 push됨)
+
 ## 실행
 기존 `src/`에 있던 `Main` 클래스는 삭제    
 대신 `src/main/`의 `MainBaekjoon`, `MainProgrammers` 클래스를 통해 독립적으로 문제별 실행을 관리    
